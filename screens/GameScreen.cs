@@ -9,6 +9,7 @@ namespace Screens
         public GameScreen()
         {
             Game.ScreenType = ScreenType.GAME_SCREEN;
+            Init();
         }
         public override void Draw()
         {

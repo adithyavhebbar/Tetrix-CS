@@ -12,6 +12,7 @@ namespace Screens
             Game.ScreenType = ScreenType.MENU_SCREEN;
             this.MenuRectHeight = Constants.MENU_RECT_HEIGHT;
             this.MenuRectWidth = Constants.MENU_RECT_WIDTH;
+            Init();
         }
 
 
@@ -32,29 +33,25 @@ namespace Screens
         private int MenuRectHeight, MenuRectWidth;
         public override void Draw()
         {
-            Color rectColor = new Color(1, 0, 0, 1);
-            Raylib.DrawRectangleRec(playRect, Color.WHITE);
-            Raylib.DrawRectangleRec(creditsRect, Color.WHITE);
-            Raylib.DrawRectangleRec(exitRect, Color.WHITE);
-            Color fontColor = Color.BLACK;
-            // fontColor.r = 171;
-            // fontColor.g = 127;
-            // fontColor.b = 5;
-            // fontColor.a = 0;
+            Color rectColor = Raylib.ColorAlpha(Raylib.GetColor(0xC14242), 0);
+            Raylib.DrawRectangleRec(playRect, rectColor);
+            Raylib.DrawRectangleRec(creditsRect, rectColor);
+            Raylib.DrawRectangleRec(exitRect, rectColor);
+            Color fontColor = Color.WHITE;
             Raylib.DrawText(PlayMsg, (int)(playRect.x + (playRect.width / 2 - PlayMsgLen / 2)),
-                                (int)(playRect.y + (playRect.height / 2)), 26, fontColor);
+                                (int)(playRect.y + (playRect.height / 2)), 30, fontColor);
             Raylib.DrawText(CreditsMsg, (int)(creditsRect.x + (creditsRect.width / 2 - CreditsMsgLen / 2)),
-                                (int)(creditsRect.y + (creditsRect.height / 2)), 26, fontColor);
+                                (int)(creditsRect.y + (creditsRect.height / 2)), 30, fontColor);
             Raylib.DrawText(ExitMsg, (int)(exitRect.x + (exitRect.width / 2 - ExitMsgLen / 2)),
-                                (int)(exitRect.y + (exitRect.height / 2)), 26, fontColor);
+                                (int)(exitRect.y + (exitRect.height / 2)), 30, fontColor);
         }
 
         public override void Init()
         {
             Game.ScreenType = ScreenType.MENU_SCREEN;
-            float x = (float)Raylib.GetScreenWidth() / 2 - MenuRectWidth / 2;
-            float y = (float)(Raylib.GetScreenHeight() / MenuRectHeight) / 3;
-            playRect = new Rectangle(x, y * MenuRectHeight - MenuRectHeight, MenuRectWidth, MenuRectHeight);
+            float x = (float)Math.Floor((double)Raylib.GetScreenWidth() / 2 - MenuRectWidth / 2);
+            float y = (float)Math.Floor((double)(Raylib.GetScreenHeight() / MenuRectHeight) / 3);
+            playRect = new Rectangle(x, y * MenuRectHeight, MenuRectWidth, MenuRectHeight);
             creditsRect = new Rectangle(x, y * MenuRectHeight * 2, MenuRectWidth, MenuRectHeight);
             exitRect = new Rectangle(x, y * MenuRectHeight * 3, MenuRectWidth, MenuRectHeight);
         }
@@ -81,7 +78,7 @@ namespace Screens
             }
 
             if (Raylib.IsMouseButtonDown(MouseButton.MOUSE_BUTTON_LEFT)
-                    && Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), creditsRect))
+                    && Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), exitRect))
             {
                 Console.WriteLine("[INFO]: Pressed Exit");
                 Game.IsPlaying = false;
